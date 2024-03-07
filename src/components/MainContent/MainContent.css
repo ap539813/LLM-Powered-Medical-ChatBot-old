@@ -1,0 +1,58 @@
+.main-content {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 1rem;
+    background: #FFF;
+    border-left: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    max-height: calc(100vh - 60px);
+  }
+  
+  .chat-area {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .chat-message {
+    background-color: #e7f5ff;
+    padding: 1rem;
+    border-radius: 20px;
+    border: 1px solid #bde0fe;
+    margin-bottom: 1rem; 
+    max-width: 80%;
+    word-break: break-word;
+  }
+  
+  .input-area {
+    display: flex;
+    padding: 1rem;
+    background: #f9f9f9;
+    border-top: 1px solid #eee;
+  }
+  
+  .prompt-input {
+    flex-grow: 1;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    margin-right: 0.5rem;
+  }
+  
+  .send-button {
+    padding: 0.5rem 1rem;
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .send-button:hover {
+    background-color: #003d82;
+  }
+  

@@ -1,24 +1,24 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import Navbar from './components/NavBar/NavBar';
+import Sidebar from './components/SideBar/SideBar';
+import MainContent from './components/MainContent/MainContent';
 import './App.css';
 
-function App() {
+const App = () => {
+  const [selectedPrompt, setSelectedPrompt] = useState("");
+
+  const handlePromptSelect = (prompt) => {
+    setSelectedPrompt(prompt);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Navbar />
+      <div className="app-body">
+        <Sidebar onPromptSelect={handlePromptSelect} />
+        <MainContent selectedPrompt={selectedPrompt} onPromptChange={setSelectedPrompt} />
+      </div>
+    </>
   );
 }
 
