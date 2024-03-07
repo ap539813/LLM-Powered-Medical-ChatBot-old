@@ -1,4 +1,4 @@
-# Getting Started with Create React App
+# Getting Started with SaathiCare React App
 
 This project was bootstrapped with [SaathiCare React App](https://github.com/sainirt21/SaathiCare-React).
 
