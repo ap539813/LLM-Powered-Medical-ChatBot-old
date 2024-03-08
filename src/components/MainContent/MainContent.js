@@ -85,7 +85,7 @@ const MainContent = () => {
     const question = questionMap[tag];
     
     try {
-      const response = await fetch('http://34.23.214.26:8080/predict', {
+      const response = await fetch('http://34.75.162.137:8080/predict', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ "question": question, "tag": tag }),
