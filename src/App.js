@@ -5,7 +5,7 @@ import MainContent from './components/MainContent/MainContent';
 import './App.css';
 
 const App = () => {
-  const [selectedPrompt, setSelectedPrompt] = useState("");
+  const [selectedPrompt, setSelectedPrompt] = useState('');
 
   const handlePromptSelect = (prompt) => {
     setSelectedPrompt(prompt);
@@ -20,6 +20,6 @@ const App = () => {
       </div>
     </>
   );
-}
+};
 
 export default App;
