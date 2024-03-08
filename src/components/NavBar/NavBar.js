@@ -6,11 +6,7 @@ function NavBar() {
   return (
     <nav className="navbar">
       <div className="navbar-brand">
-        <img 
-          src="logo.png" 
-          alt="Logo"
-          className="navbar-logo"
-        />
+        <img src={`${process.env.PUBLIC_URL}/logo.png`} alt="Logo" className="navbar-logo" />
         <span className="navbar-heading">CareSaathi</span>
       </div>
       <ul className="navbar-nav">
