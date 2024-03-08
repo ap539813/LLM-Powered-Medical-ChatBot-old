@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaRobot, FaUser, FaPlay } from 'react-icons/fa';
 import './MainContent.css';
 
@@ -33,7 +33,13 @@ const MainContent = () => {
     user_report: [],
   });
 
-  const handleApiCall = useCallback(async (tag) => {
+  useEffect(() => {
+    if (chatStarted) {
+      handleApiCall(tags[0]);
+    }
+  }, [chatStarted]);
+
+  const handleApiCall = async (tag) => {
     setCurrentStep(tag);
     const context = "Diabetes Mellitus is a chronic condition characterized by high blood sugar levels. Common symptoms include increased thirst, weight loss, and blurred vision. Treatment options include insulin, oral medications, and lifestyle changes. Management often involves monitoring carbohydrate intake and maintaining a balanced diet. Endocrinologists and diabetes educators are the specialists involved in treating this condition. There is a genetic component to diabetes, and it is important to manage lifestyle habits such as regular exercise and weight management. Diabetes is seeing a global increase, with type 2 being the most common form. \n Hypertension is a chronic condition known for high blood pressure. Symptoms can include headaches and dizziness. Treatment typically involves medication, such as antihypertensives, and lifestyle changes like diet and exercise. A low-sodium diet and a balanced diet with fruits and vegetables are recommended. Cardiologists and primary care physicians are the specialists who manage hypertension. A family history of hypertension can increase the risk. Lifestyle habits such as regular exercise and maintaining a healthy weight are important. Hypertension is more prevalent in older adults and individuals with certain ethnic backgrounds.\n Dengue is a viral infection that presents with symptoms such as high fever, severe headache, and pain behind the eyes. Treatment mainly focuses on fluid replacement therapy and pain relievers. Infectious disease specialists and hematologists are the specialists who treat dengue. It is important to maintain hydration with water and electrolyte-rich fluids. There is no specific genetic predisposition known for dengue. Preventative lifestyle habits include avoiding mosquito bites by using insect repellent and wearing protective clothing. Dengue is common in tropical and subtropical regions where Aedes mosquitoes thrive."
 
@@ -97,13 +103,7 @@ const MainContent = () => {
       const errorMessage = { type: 'bot', text: 'There was an error processing your request.' };
       setChatMessages((chatMessages) => [...chatMessages, errorMessage]);
     }
-  },[apiStates, setChatMessages,stateMappings]);
-
-  useEffect(() => {
-    if (chatStarted) {
-      handleApiCall(tags[0]);
-    }
-  }, [chatStarted, handleApiCall, tags]);
+  };
 
   const handleInputChange = (event) => {
     setUserInput(event.target.value);
