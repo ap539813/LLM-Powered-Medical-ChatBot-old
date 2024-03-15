@@ -90,13 +90,23 @@ const MainContent = () => {
     if (!userInput.trim()) return;
     const newUserMessage = { type: 'user', text: userInput };
     setChatMessages((chatMessages) => [...chatMessages, newUserMessage]);
-    setUserInput('');
-
+  
+    // Update the user state mapping for the current tag
+    const currentTag = shuffledTags[currentTagIndex];
+    const userStateKey = userStateMappings[currentTag];
+    setApiStates((prevStates) => ({
+      ...prevStates,
+      [userStateKey]: [...prevStates[userStateKey], userInput],
+    }));
+  
+    setUserInput(''); // Clear the input field
+  
     const nextIndex = currentTagIndex + 1;
     if (nextIndex < shuffledTags.length) {
       setCurrentTagIndex(nextIndex);
     }
-  };
+};
+
 
   const resetChat = () => {
     setChatStarted(false);
