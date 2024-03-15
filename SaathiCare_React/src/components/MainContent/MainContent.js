@@ -82,6 +82,7 @@ const MainContent = () => {
   }, [currentTagIndex, shuffledTags, apiStates]);
 
   const handleInputChange = (event) => {
+    console.log(event.target.value);
     setUserInput(event.target.value);
   };
 
