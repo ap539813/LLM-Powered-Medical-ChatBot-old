@@ -5,7 +5,8 @@ import './MainContent.css';
 const MainContent = () => {
   const [chatStarted, setChatStarted] = useState(false);
   const [chatMessages, setChatMessages] = useState([]);
-  const [currentTagIndex, setCurrentTagIndex] = useState(0);
+  // const [currentTagIndex, setCurrentTagIndex] = useState(0);
+  const [currentTagIndex, setCurrentTagIndex] = useState(-1);
   const [userInput, setUserInput] = useState('');
   const [shuffledTags, setShuffledTags] = useState([]);
 
@@ -23,8 +24,9 @@ const MainContent = () => {
     setShuffledTags(shuffled);
     setCurrentTagIndex(0);
     setChatStarted(true);
-    setChatMessages([]);
+    setChatMessages([{ type: 'bot', text: "Hi, I am your doctor. How can I help you today?" }]);
   };
+
 
   const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
@@ -86,26 +88,53 @@ const MainContent = () => {
     setUserInput(event.target.value);
   };
 
+//   const handleSendMessage = () => {
+//     if (!userInput.trim()) return;
+//     const newUserMessage = { type: 'user', text: userInput };
+//     setChatMessages((chatMessages) => [...chatMessages, newUserMessage]);
+  
+//     // Update the user state mapping for the current tag
+//     const currentTag = shuffledTags[currentTagIndex];
+//     const userStateKey = userStateMappings[currentTag];
+//     setApiStates((prevStates) => ({
+//       ...prevStates,
+//       [userStateKey]: [...prevStates[userStateKey], userInput],
+//     }));
+  
+//     setUserInput(''); // Clear the input field
+  
+//     const nextIndex = currentTagIndex + 1;
+//     if (nextIndex < shuffledTags.length) {
+//       setCurrentTagIndex(nextIndex);
+//     }
+// };
+
+
   const handleSendMessage = () => {
     if (!userInput.trim()) return;
     const newUserMessage = { type: 'user', text: userInput };
     setChatMessages((chatMessages) => [...chatMessages, newUserMessage]);
   
-    // Update the user state mapping for the current tag
-    const currentTag = shuffledTags[currentTagIndex];
-    const userStateKey = userStateMappings[currentTag];
-    setApiStates((prevStates) => ({
-      ...prevStates,
-      [userStateKey]: [...prevStates[userStateKey], userInput],
-    }));
+    if (currentTagIndex === -1) {
+      setCurrentTagIndex(0); // Start handling tags after the first user message
+    } else {
+      // Update the user state mapping for the current tag
+      const currentTag = shuffledTags[currentTagIndex];
+      const userStateKey = userStateMappings[currentTag];
+      setApiStates((prevStates) => ({
+        ...prevStates,
+        [userStateKey]: [...prevStates[userStateKey], userInput],
+      }));
+  
+      const nextIndex = currentTagIndex + 1;
+      if (nextIndex < shuffledTags.length) {
+        setCurrentTagIndex(nextIndex);
+      }
+    }
   
     setUserInput(''); // Clear the input field
-  
-    const nextIndex = currentTagIndex + 1;
-    if (nextIndex < shuffledTags.length) {
-      setCurrentTagIndex(nextIndex);
-    }
-};
+  };
+
 
 
   const resetChat = () => {
