@@ -5,6 +5,8 @@ import './MainContent.css';
 const MainContent = () => {
   const [chatStarted, setChatStarted] = useState(false);
   const [chatMessages, setChatMessages] = useState([]);
+  const [greetingAcknowledged, setGreetingAcknowledged] = useState(false);
+
   // const [currentTagIndex, setCurrentTagIndex] = useState(0);
   const [currentTagIndex, setCurrentTagIndex] = useState(-1);
   const [userInput, setUserInput] = useState('');
@@ -12,11 +14,18 @@ const MainContent = () => {
 
   const initialTags = ['symptom', 'lifestyle', 'genetic'];
 
+  // useEffect(() => {
+  //   if (chatStarted && shuffledTags.length > currentTagIndex) {
+  //     handleApiCall(shuffledTags[currentTagIndex]);
+  //   }
+  // }, [chatStarted, shuffledTags, currentTagIndex]);
+
   useEffect(() => {
-    if (chatStarted && shuffledTags.length > currentTagIndex) {
+    if (chatStarted && greetingAcknowledged && shuffledTags.length > currentTagIndex) {
       handleApiCall(shuffledTags[currentTagIndex]);
     }
-  }, [chatStarted, shuffledTags, currentTagIndex]);
+  }, [chatStarted, greetingAcknowledged, shuffledTags, currentTagIndex]);
+
 
   const startChat = () => {
     const shuffled = shuffleArray([...initialTags]);
@@ -110,13 +119,38 @@ const MainContent = () => {
 // };
 
 
+  // const handleSendMessage = () => {
+  //   if (!userInput.trim()) return;
+  //   const newUserMessage = { type: 'user', text: userInput };
+  //   setChatMessages((chatMessages) => [...chatMessages, newUserMessage]);
+  
+  //   if (currentTagIndex === -1) {
+  //     setCurrentTagIndex(0); // Start handling tags after the first user message
+  //   } else {
+  //     // Update the user state mapping for the current tag
+  //     const currentTag = shuffledTags[currentTagIndex];
+  //     const userStateKey = userStateMappings[currentTag];
+  //     setApiStates((prevStates) => ({
+  //       ...prevStates,
+  //       [userStateKey]: [...prevStates[userStateKey], userInput],
+  //     }));
+  
+  //     const nextIndex = currentTagIndex + 1;
+  //     if (nextIndex < shuffledTags.length) {
+  //       setCurrentTagIndex(nextIndex);
+  //     }
+  //   }
+  
+  //   setUserInput(''); // Clear the input field
+  // };
+
   const handleSendMessage = () => {
     if (!userInput.trim()) return;
     const newUserMessage = { type: 'user', text: userInput };
     setChatMessages((chatMessages) => [...chatMessages, newUserMessage]);
   
-    if (currentTagIndex === -1) {
-      setCurrentTagIndex(0); // Start handling tags after the first user message
+    if (!greetingAcknowledged) {
+      setGreetingAcknowledged(true);
     } else {
       // Update the user state mapping for the current tag
       const currentTag = shuffledTags[currentTagIndex];
@@ -134,6 +168,7 @@ const MainContent = () => {
   
     setUserInput(''); // Clear the input field
   };
+
 
 
 
