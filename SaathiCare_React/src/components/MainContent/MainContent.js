@@ -7,18 +7,11 @@ const MainContent = () => {
   const [chatMessages, setChatMessages] = useState([]);
   const [greetingAcknowledged, setGreetingAcknowledged] = useState(false);
 
-  // const [currentTagIndex, setCurrentTagIndex] = useState(0);
   const [currentTagIndex, setCurrentTagIndex] = useState(-1);
   const [userInput, setUserInput] = useState('');
   const [shuffledTags, setShuffledTags] = useState([]);
 
   const initialTags = ['symptom', 'lifestyle', 'genetic'];
-
-  // useEffect(() => {
-  //   if (chatStarted && shuffledTags.length > currentTagIndex) {
-  //     handleApiCall(shuffledTags[currentTagIndex]);
-  //   }
-  // }, [chatStarted, shuffledTags, currentTagIndex]);
 
   useEffect(() => {
     if (chatStarted && greetingAcknowledged && shuffledTags.length > currentTagIndex) {
@@ -60,6 +53,8 @@ const MainContent = () => {
   };
 
   const [apiStates, setApiStates] = useState({
+    greeting_question: "Hi, I am your doctor. How can I help you today?",
+    greeting_response: "", 
     symptom_questions: [],
     lifestyle_questions: [],
     genetic_questions: [],
@@ -97,53 +92,6 @@ const MainContent = () => {
     setUserInput(event.target.value);
   };
 
-//   const handleSendMessage = () => {
-//     if (!userInput.trim()) return;
-//     const newUserMessage = { type: 'user', text: userInput };
-//     setChatMessages((chatMessages) => [...chatMessages, newUserMessage]);
-  
-//     // Update the user state mapping for the current tag
-//     const currentTag = shuffledTags[currentTagIndex];
-//     const userStateKey = userStateMappings[currentTag];
-//     setApiStates((prevStates) => ({
-//       ...prevStates,
-//       [userStateKey]: [...prevStates[userStateKey], userInput],
-//     }));
-  
-//     setUserInput(''); // Clear the input field
-  
-//     const nextIndex = currentTagIndex + 1;
-//     if (nextIndex < shuffledTags.length) {
-//       setCurrentTagIndex(nextIndex);
-//     }
-// };
-
-
-  // const handleSendMessage = () => {
-  //   if (!userInput.trim()) return;
-  //   const newUserMessage = { type: 'user', text: userInput };
-  //   setChatMessages((chatMessages) => [...chatMessages, newUserMessage]);
-  
-  //   if (currentTagIndex === -1) {
-  //     setCurrentTagIndex(0); // Start handling tags after the first user message
-  //   } else {
-  //     // Update the user state mapping for the current tag
-  //     const currentTag = shuffledTags[currentTagIndex];
-  //     const userStateKey = userStateMappings[currentTag];
-  //     setApiStates((prevStates) => ({
-  //       ...prevStates,
-  //       [userStateKey]: [...prevStates[userStateKey], userInput],
-  //     }));
-  
-  //     const nextIndex = currentTagIndex + 1;
-  //     if (nextIndex < shuffledTags.length) {
-  //       setCurrentTagIndex(nextIndex);
-  //     }
-  //   }
-  
-  //   setUserInput(''); // Clear the input field
-  // };
-
   const handleSendMessage = () => {
     if (!userInput.trim()) return;
     const newUserMessage = { type: 'user', text: userInput };
@@ -151,11 +99,14 @@ const MainContent = () => {
   
     if (!greetingAcknowledged) {
       setGreetingAcknowledged(true);
-    } else {
-      // Update the user state mapping for the current tag
+      setApiStates(prevStates => ({
+        ...prevStates,
+        greeting_response: userInput,
+      }));
+    }  else {
       const currentTag = shuffledTags[currentTagIndex];
       const userStateKey = userStateMappings[currentTag];
-      setApiStates((prevStates) => ({
+      setApiStates(prevStates => ({
         ...prevStates,
         [userStateKey]: [...prevStates[userStateKey], userInput],
       }));
@@ -166,11 +117,8 @@ const MainContent = () => {
       }
     }
   
-    setUserInput(''); // Clear the input field
+    setUserInput('');
   };
-
-
-
 
   const resetChat = () => {
     setChatStarted(false);
@@ -224,24 +172,31 @@ export default MainContent;
 function generatePromptForTag(tag, currentTagIndex, shuffledTags, apiStates, stateMappings, userStateMappings) {
   let prompt = "";
   const context = "Diabetes Mellitus is a chronic condition characterized by high blood sugar levels. Common symptoms include increased thirst, weight loss, and blurred vision. Treatment options include insulin, oral medications, and lifestyle changes. Management often involves monitoring carbohydrate intake and maintaining a balanced diet. Endocrinologists and diabetes educators are the specialists involved in treating this condition. There is a genetic component to diabetes, and it is important to manage lifestyle habits such as regular exercise and weight management. Diabetes is seeing a global increase, with type 2 being the most common form. \n Hypertension is a chronic condition known for high blood pressure. Symptoms can include headaches and dizziness. Treatment typically involves medication, such as antihypertensives, and lifestyle changes like diet and exercise. A low-sodium diet and a balanced diet with fruits and vegetables are recommended. Cardiologists and primary care physicians are the specialists who manage hypertension. A family history of hypertension can increase the risk. Lifestyle habits such as regular exercise and maintaining a healthy weight are important. Hypertension is more prevalent in older adults and individuals with certain ethnic backgrounds.\n Dengue is a viral infection that presents with symptoms such as high fever, severe headache, and pain behind the eyes. Treatment mainly focuses on fluid replacement therapy and pain relievers. Infectious disease specialists and hematologists are the specialists who treat dengue. It is important to maintain hydration with water and electrolyte-rich fluids. There is no specific genetic predisposition known for dengue. Preventative lifestyle habits include avoiding mosquito bites by using insect repellent and wearing protective clothing. Dengue is common in tropical and subtropical regions where Aedes mosquitoes thrive."
+  const greetingQuestion = apiStates.greeting_question;
+  const greetingResponse = apiStates.greeting_response;
   
-  if (currentTagIndex === 2) { 
-    const firstTag = shuffledTags[0];
-    const secondTag = shuffledTags[1];
-    const firstQuestion = apiStates[stateMappings[firstTag]].slice(-1)[0];
-    const firstResponse = apiStates[userStateMappings[firstTag]].slice(-1)[0];
-    const secondQuestion = apiStates[stateMappings[secondTag]].slice(-1)[0];
-    const secondResponse = apiStates[userStateMappings[secondTag]].slice(-1)[0];
-    
-    prompt = `First Question: ${firstQuestion}
-               Response for first question from Patient: ${firstResponse}
-               Second Question: ${secondQuestion}
-               Response for second question from Patient: ${secondResponse}
-               I am playing a doctor in a play. Please generate one question based on the previous responses I should ask a patient about their ${tag}. 
-               Format your response strictly as follows:
-               ${tag.charAt(0).toUpperCase() + tag.slice(1)}: [A question related to the ${tag} they are having].`;
-  } else if (tag === 'report') {
-    prompt = `Patient symptoms: ${apiStates.user_symptoms.join(", ")}.
+  if (currentTagIndex === 1) {
+    prompt = `Greeting Question: ${greetingQuestion}
+              Greeting Response from Patient: ${greetingResponse}
+              I am playing a doctor in a play. Please generate one question I should ask a patient about their ${tag}.
+              Format your response strictly as follows: 
+              ${tag.charAt(0).toUpperCase() + tag.slice(1)}: [A question related to the ${tag} they are having].`;
+  } else if (currentTagIndex > 1 && currentTagIndex < shuffledTags.length - 1) { 
+    const previousTag = shuffledTags[currentTagIndex - 1];
+    const lastQuestion = apiStates[stateMappings[previousTag]].slice(-1)[0];
+    const lastResponse = apiStates[userStateMappings[previousTag]].slice(-1)[0];
+
+    prompt = `Greeting Question: ${greetingQuestion}
+              Greeting Response from Patient: ${greetingResponse}
+              Previous Question: ${lastQuestion}
+              Previous Response from Patient: ${lastResponse}
+              I am playing a doctor in a play. Please generate one question based on the previous responses I should ask a patient about their ${tag}.
+              Format your response strictly as follows:
+              ${tag.charAt(0).toUpperCase() + tag.slice(1)}: [A question related to the ${tag} they are having].`;
+  } else if (tag === 'report') { 
+    prompt = `Greeting Question: ${greetingQuestion}
+              Greeting Response from Patient: ${greetingResponse}
+              Patient symptoms: ${apiStates.user_symptoms.join(", ")}.
               Lifestyle and eating habits: ${apiStates.user_lifestyle.join(", ")}.
               Family history of diseases: ${apiStates.user_genetic.join(", ")}.
 
@@ -263,24 +218,7 @@ function generatePromptForTag(tag, currentTagIndex, shuffledTags, apiStates, sta
               - [Specialist 3]
               ...
               END OF RESPONSE`;
-  } else {
-    if (currentTagIndex > 0) {
-      const previousTag = shuffledTags[currentTagIndex - 1];
-      const lastQuestion = apiStates[stateMappings[previousTag]].slice(-1)[0];
-      const lastResponse = apiStates[userStateMappings[previousTag]].slice(-1)[0];
-      
-      prompt = `Previous Question: ${lastQuestion}
-                Previous Response from Patient: ${lastResponse}
-                I am playing a doctor in a play. Please generate one question based on the previous response I should ask a patient about their ${tag}. 
-                Format your response strictly as follows:
-                ${tag.charAt(0).toUpperCase() + tag.slice(1)}: [A question related to the ${tag} they are having].`;
-    } else {
-      prompt = `I am playing a doctor in a play. Please generate one question I should ask a patient about their ${tag}. 
-                Format your response strictly as follows: 
-                ${tag.charAt(0).toUpperCase() + tag.slice(1)}: [A question related to the ${tag} they are having].`;
-    }
   }
+  
   return prompt;
 }
-
-
