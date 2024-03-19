@@ -16,21 +16,21 @@ PROJECT_ID="1093938084624"
 
 
 def predict_vertex_ai(endpoint_id, project_id, instance, location="us-central1"):
-    client_options = {"api_endpoint": f"us-central1-aiplatform.googleapis.com"}
-    client = aiplatform.gapic.PredictionServiceClient(client_options=client_options)
+    # client_options = {"api_endpoint": f"us-central1-aiplatform.googleapis.com"}
+    # client = aiplatform.gapic.PredictionServiceClient(client_options=client_options)
 
-    endpoint = client.endpoint_path(
-        project=project_id,
-        location=location,
-        endpoint=endpoint_id
-    )
+    # endpoint = client.endpoint_path(
+    #     project=project_id,
+    #     location=location,
+    #     endpoint=endpoint_id
+    # )
 
-    response = client.predict(
-        endpoint=endpoint,
-        instances=[instance]
-    )
+    # response = client.predict(
+    #     endpoint=endpoint,
+    #     instances=[instance]
+    # )
 
-    return response.predictions
+    return ['response.predictions']
 
 
 @app.route('/health', methods=['GET'])
