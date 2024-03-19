@@ -1,15 +1,16 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { FaRobot, FaUser, FaPlay } from 'react-icons/fa';
+import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import { FaRobot, FaUser, FaPlay, FaMicrophone } from 'react-icons/fa';
 import './MainContent.css';
 
 const MainContent = () => {
   const [chatStarted, setChatStarted] = useState(false);
   const [chatMessages, setChatMessages] = useState([]);
   const [greetingAcknowledged, setGreetingAcknowledged] = useState(false);
-
   const [currentTagIndex, setCurrentTagIndex] = useState(-1);
   const [userInput, setUserInput] = useState('');
   const [shuffledTags, setShuffledTags] = useState([]);
+  const [isListening, setIsListening] = useState(false);
+  const speechRecognition = useRef(null);
 
   const initialTags = ['symptom', 'lifestyle', 'genetic'];
 
@@ -18,6 +19,26 @@ const MainContent = () => {
       handleApiCall(shuffledTags[currentTagIndex]);
     }
   }, [chatStarted, greetingAcknowledged, shuffledTags, currentTagIndex]);
+
+  useEffect(() => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      speechRecognition.current = new SpeechRecognition();
+      speechRecognition.current.continuous = false;
+      speechRecognition.current.lang = 'en-US';
+      speechRecognition.current.interimResults = false;
+
+      speechRecognition.current.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        setUserInput(transcript);
+        setIsListening(false);
+      };
+
+      speechRecognition.current.onend = () => {
+        setIsListening(false);
+      };
+    }
+  }, []);
 
 
   const startChat = () => {
@@ -96,27 +117,27 @@ const MainContent = () => {
     if (!userInput.trim()) return;
     const newUserMessage = { type: 'user', text: userInput };
     setChatMessages((chatMessages) => [...chatMessages, newUserMessage]);
-  
+
     if (!greetingAcknowledged) {
       setGreetingAcknowledged(true);
       setApiStates(prevStates => ({
         ...prevStates,
         greeting_response: userInput,
       }));
-    }  else {
+    } else {
       const currentTag = shuffledTags[currentTagIndex];
       const userStateKey = userStateMappings[currentTag];
       setApiStates(prevStates => ({
         ...prevStates,
         [userStateKey]: [...prevStates[userStateKey], userInput],
       }));
-  
+
       const nextIndex = currentTagIndex + 1;
       if (nextIndex < shuffledTags.length) {
         setCurrentTagIndex(nextIndex);
       }
     }
-  
+
     setUserInput('');
   };
 
@@ -126,6 +147,13 @@ const MainContent = () => {
     setCurrentTagIndex(0);
     setUserInput('');
     setShuffledTags([]);
+  };
+
+  const startListening = () => {
+    if (speechRecognition.current) {
+      speechRecognition.current.start();
+      setIsListening(true);
+    }
   };
 
   return (
@@ -146,16 +174,17 @@ const MainContent = () => {
             ))}
           </div>
           <div className="input-area">
-            <input
-              type="text"
-              placeholder="Type your response..."
-              className="prompt-input"
-              value={userInput}
-              onChange={handleInputChange}
-              onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-            />
-            <button className="send-button" onClick={handleSendMessage}>Send</button>
-          </div>
+        <FaMicrophone className={`mic-icon ${isListening ? 'listening' : ''}`} onClick={startListening} />
+        <input
+          type="text"
+          placeholder="Type your response..."
+          className="prompt-input"
+          value={userInput}
+          onChange={handleInputChange}
+          onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+        />
+        <button className="send-button" onClick={handleSendMessage}>Send</button>
+      </div>
         </>
       )}
       {chatStarted && (
@@ -193,7 +222,7 @@ function generatePromptForTag(tag, currentTagIndex, shuffledTags, apiStates, sta
               I am playing a doctor in a play. Please generate one question based on the previous responses I should ask a patient about their ${tag}.
               Format your response strictly as follows:
               ${tag.charAt(0).toUpperCase() + tag.slice(1)}: [A question related to the ${tag} they are having].`;
-  } else if (tag === 'report') { 
+  } else if (tag === 'report') {
     prompt = `Greeting Question: ${greetingQuestion}
               Greeting Response from Patient: ${greetingResponse}
               Patient symptoms: ${apiStates.user_symptoms.join(", ")}.

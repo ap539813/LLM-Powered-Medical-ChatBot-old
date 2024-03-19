@@ -101,3 +101,14 @@
 .start-icon {
   margin-right: 0.5rem;
 }
+
+.mic-icon {
+  font-size: 1.5rem;
+  cursor: pointer;
+  margin-right: 0.5rem;
+  color: #555; 
+}
+
+.listening {
+  color: red; 
+}
