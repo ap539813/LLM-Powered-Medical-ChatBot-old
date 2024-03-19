@@ -13,10 +13,8 @@ const MainContent = () => {
   const [isLoading, setIsLoading] = useState(false);
   const speechRecognition = useRef(null);
   const [inputDisabled, setInputDisabled] = useState(false);
-
   
   const initialTags = ['symptom', 'lifestyle', 'genetic'];
-  
 
   useEffect(() => {
     if (chatStarted && greetingAcknowledged && currentTagIndex >= 0 && shuffledTags.length > currentTagIndex) {
@@ -26,23 +24,19 @@ const MainContent = () => {
 
   const lazyInitSpeechRecognition = useCallback(() => {
     if (speechRecognition.current !== null) return;
-
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (SpeechRecognition) {
       const recognition = new SpeechRecognition();
       recognition.continuous = false;
       recognition.lang = 'en-US';
       recognition.interimResults = false;
-
       recognition.onresult = (event) => {
         const transcript = event.results[0][0].transcript;
         setUserInput(transcript);
       };
-
       recognition.onend = () => {
         setIsListening(false);
       };
-
       speechRecognition.current = recognition;
     }
   }, []);
@@ -105,9 +99,33 @@ const MainContent = () => {
     user_report: [],
   });
 
+  const fetchContext = async (userResponses) => {
+    try {
+      const response = await fetch('http://192.168.29.30:8090/process_responses', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_responses: userResponses }),
+      });
+      const data = await response.json();
+      return data.response;
+    } catch (error) {
+      console.error("Error fetching context: ", error);
+      return "ERROR";
+    }
+  };
+
   const handleApiCall = useCallback(async (tag) => {
     setIsLoading(true);
-    let prompt = generatePromptForTag(tag, currentTagIndex, shuffledTags, apiStates, stateMappings, userStateMappings);
+    let context = '';
+    if (tag === 'report') {
+      const userResponses = {
+        lifestyle: apiStates.user_lifestyle.join(", "),
+        symptom: apiStates.user_symptoms.join(", "),
+        genetic: apiStates.user_genetic.join(", ")
+      };
+      context = await fetchContext(userResponses);
+    }
+    let prompt = await generatePromptForTag(tag, currentTagIndex, shuffledTags, apiStates, stateMappings, userStateMappings, context);
     try {
       const response = await fetch('http://192.168.29.30:8080/predict', {
         method: 'POST',
@@ -176,10 +194,12 @@ const MainContent = () => {
   const resetChat = useCallback(() => {
     setChatStarted(false);
     setChatMessages([]);
-    setCurrentTagIndex(0);
+    setCurrentTagIndex(-1);
     setUserInput('');
     setShuffledTags([]);
+    setGreetingAcknowledged(false);
   }, []);
+  
 
   return (
     <div className="main-content">
@@ -225,9 +245,8 @@ const MainContent = () => {
 };
 export default MainContent;
 
-function generatePromptForTag(tag, currentTagIndex, shuffledTags, apiStates, stateMappings, userStateMappings) {
+ function generatePromptForTag(tag, currentTagIndex, shuffledTags, apiStates, stateMappings, userStateMappings,fetchedContext) {
   let prompt = "";
-  const context = "Diabetes Mellitus is a chronic condition characterized by high blood sugar levels. Common symptoms include increased thirst, weight loss, and blurred vision. Treatment options include insulin, oral medications, and lifestyle changes. Management often involves monitoring carbohydrate intake and maintaining a balanced diet. Endocrinologists and diabetes educators are the specialists involved in treating this condition. There is a genetic component to diabetes, and it is important to manage lifestyle habits such as regular exercise and weight management. Diabetes is seeing a global increase, with type 2 being the most common form. \n Hypertension is a chronic condition known for high blood pressure. Symptoms can include headaches and dizziness. Treatment typically involves medication, such as antihypertensives, and lifestyle changes like diet and exercise. A low-sodium diet and a balanced diet with fruits and vegetables are recommended. Cardiologists and primary care physicians are the specialists who manage hypertension. A family history of hypertension can increase the risk. Lifestyle habits such as regular exercise and maintaining a healthy weight are important. Hypertension is more prevalent in older adults and individuals with certain ethnic backgrounds.\n Dengue is a viral infection that presents with symptoms such as high fever, severe headache, and pain behind the eyes. Treatment mainly focuses on fluid replacement therapy and pain relievers. Infectious disease specialists and hematologists are the specialists who treat dengue. It is important to maintain hydration with water and electrolyte-rich fluids. There is no specific genetic predisposition known for dengue. Preventative lifestyle habits include avoiding mosquito bites by using insect repellent and wearing protective clothing. Dengue is common in tropical and subtropical regions where Aedes mosquitoes thrive."
   const greetingQuestion = apiStates.greeting_question;
   const greetingResponse = apiStates.greeting_response;
 
@@ -271,7 +290,7 @@ function generatePromptForTag(tag, currentTagIndex, shuffledTags, apiStates, sta
               Family history of diseases: ${apiStates.user_genetic.join(", ")}.
 
               Data Source for analysis:
-              ${context}
+              ${fetchedContext}
 
               Based on the patient's symptoms and provided context, provide a possible diagnosis, recommended treatments, and specialists to consult. 
               NOTE: This will not be considered as a real treatment, don't give any note or precaution with your response.
