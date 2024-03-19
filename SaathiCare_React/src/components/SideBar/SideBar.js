@@ -40,7 +40,7 @@ const Sidebar = ({ onPromptSelect }) => {
           </div>
           <div className={`section-content ${activeIndex === index ? 'show' : 'hide'}`}>
             {section.content.map((text, idx) => (
-              <div key={idx} className="section-item" onClick={() => onPromptSelect(text)}>
+              <div key={idx} className="section-item disabled">
                 <div className="item-text">{text}</div>
               </div>
             ))}
