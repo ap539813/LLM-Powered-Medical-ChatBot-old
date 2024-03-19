@@ -34,14 +34,13 @@
     font-size: 0.95rem;
     display: flex;
     align-items: center;
-  }
+}
   
-  .section-item:hover {
+.section-item:hover {
     background-color: #e2e3e5;
     transform: scale(1.02);
     font-weight: 500;
-  }
-  
+}
 
 .item-text {
     display: block;
@@ -63,12 +62,6 @@
     font-size: 18px;
 }
 
-.section-icon {
-    margin-right: 10px;
-    font-size: 1.5rem;
-    color: #17a2b8;
-}
-
 .active .section-header {
     background-color: #1386a8;
     color: white;
@@ -84,4 +77,17 @@
 
 .hide {
     display: none;
+}
+.section-item.disabled, .section-item.disabled .item-text {
+    color: #adb5bd;
+    pointer-events: none;
+}
+
+.section-item.disabled {
+    background-color: #e9ecef;
+    cursor: default;
+}
+
+.section-item.disabled .item-text {
+    box-shadow: none;
 }
