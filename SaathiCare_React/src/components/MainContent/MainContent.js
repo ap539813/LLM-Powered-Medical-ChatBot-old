@@ -20,7 +20,7 @@ const MainContent = () => {
     }
   }, [chatStarted, greetingAcknowledged, shuffledTags, currentTagIndex]);
 
-  useEffect(() => {
+  const lazyInitSpeechRecognition = useCallback(() => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (SpeechRecognition) {
       speechRecognition.current = new SpeechRecognition();
@@ -40,7 +40,6 @@ const MainContent = () => {
     }
   }, []);
 
-
   const startChat = () => {
     const shuffled = shuffleArray([...initialTags]);
     shuffled.push('report');
@@ -48,8 +47,8 @@ const MainContent = () => {
     setCurrentTagIndex(0);
     setChatStarted(true);
     setChatMessages([{ type: 'bot', text: "Hi, I am your doctor. How can I help you today?" }]);
+    lazyInitSpeechRecognition();
   };
-
 
   const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
@@ -108,12 +107,12 @@ const MainContent = () => {
     }
   }, [currentTagIndex, shuffledTags, apiStates]);
 
-  const handleInputChange = (event) => {
+  const handleInputChange = useCallback((event) => {
     console.log(event.target.value);
     setUserInput(event.target.value);
-  };
+  }, []);
 
-  const handleSendMessage = () => {
+  const handleSendMessage = useCallback(() => {
     if (!userInput.trim()) return;
     const newUserMessage = { type: 'user', text: userInput };
     setChatMessages((chatMessages) => [...chatMessages, newUserMessage]);
@@ -131,30 +130,30 @@ const MainContent = () => {
         ...prevStates,
         [userStateKey]: [...prevStates[userStateKey], userInput],
       }));
+    }
 
-      const nextIndex = currentTagIndex + 1;
-      if (nextIndex < shuffledTags.length) {
-        setCurrentTagIndex(nextIndex);
-      }
+    const nextIndex = currentTagIndex + 1;
+    if (nextIndex < shuffledTags.length) {
+      setCurrentTagIndex(nextIndex);
     }
 
     setUserInput('');
-  };
+  }, [userInput, shuffledTags, currentTagIndex, greetingAcknowledged]);
 
-  const resetChat = () => {
+  const resetChat = useCallback(() => {
     setChatStarted(false);
     setChatMessages([]);
     setCurrentTagIndex(0);
     setUserInput('');
     setShuffledTags([]);
-  };
+  }, []);
 
-  const startListening = () => {
+  const startListening = useCallback(() => {
     if (speechRecognition.current) {
       speechRecognition.current.start();
       setIsListening(true);
     }
-  };
+  }, []);
 
   return (
     <div className="main-content">
@@ -174,17 +173,17 @@ const MainContent = () => {
             ))}
           </div>
           <div className="input-area">
-        <FaMicrophone className={`mic-icon ${isListening ? 'listening' : ''}`} onClick={startListening} />
-        <input
-          type="text"
-          placeholder="Type your response..."
-          className="prompt-input"
-          value={userInput}
-          onChange={handleInputChange}
-          onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-        />
-        <button className="send-button" onClick={handleSendMessage}>Send</button>
-      </div>
+            <FaMicrophone className={`mic-icon ${isListening ? 'listening' : ''}`} onClick={startListening} />
+            <input
+              type="text"
+              placeholder="Type your response..."
+              className="prompt-input"
+              value={userInput}
+              onChange={handleInputChange}
+              onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+            />
+            <button className="send-button" onClick={handleSendMessage}>Send</button>
+          </div>
         </>
       )}
       {chatStarted && (
