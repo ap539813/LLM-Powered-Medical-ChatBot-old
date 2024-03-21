@@ -130,7 +130,7 @@ const MainContent = () => {
       const response = await fetch('http://192.168.29.30:8080/predict', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ question: prompt, tag: tag }),
+        body: JSON.stringify({ question: prompt, tag: tag, context: context}),
       });
       const data = await response.json();
       const botQuestion = { type: 'bot', text: data.response };
@@ -279,9 +279,9 @@ export default MainContent;
               First Response from Patient: ${previousResponses[0]}
               Second Question: ${previousQuestions[1]}
               Second Response from Patient: ${previousResponses[1]}
-              I am playing a doctor in a play. Please provide some general information or advice regarding ${tag}.
+              I am playing a doctor in a play. Please generate one question that I should ask a patient based on the previous responses, about their ${tag}.
               Format your response strictly as follows:
-              ${tag.charAt(0).toUpperCase() + tag.slice(1)}: [Your response regarding ${tag}].`;
+              ${tag.charAt(0).toUpperCase() + tag.slice(1)}: [A question related to the ${tag} they are having].`;
   } else if (currentTagIndex === shuffledTags.length - 1) {
     prompt = `Greeting Question: ${greetingQuestion}
               Greeting Response from Patient: ${greetingResponse}
@@ -293,7 +293,8 @@ export default MainContent;
               ${fetchedContext}
 
               Based on the patient's symptoms and provided context, provide a possible diagnosis, recommended treatments, and specialists to consult. 
-              NOTE: This will not be considered as a real treatment, don't give any note or precaution with your response.
+              NOTE: 1. This will not be considered as a real treatment, don't give any note or precaution with your response.
+                    2. Make your diagnosis strictly based of of Data Source for analysis provided. 
               Format your response strictly as follows:
               Diagnosis: [Specific diagnosis based on the symptoms].
               Treatments:
