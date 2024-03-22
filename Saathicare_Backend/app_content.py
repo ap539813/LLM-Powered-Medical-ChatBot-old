@@ -30,8 +30,8 @@ def plot_histogram():
 
 @app.route('/projected_cases', methods=['POST'])
 def projected_cases():
-    data = request.json
-    df = pd.DataFrame(data)
+    df = load_data()
+    # print(df) 
 
     # Define the total population of Odisha
     population_odisha = 45429399
@@ -61,7 +61,9 @@ def projected_cases():
     ci_df = pd.DataFrame.from_dict(confidence_intervals_odisha, orient='index', columns=['Lower Bound', 'Upper Bound'])
     ci_df = ci_df.round().astype(int)  # Rounding off for better readability
 
-    return ci_df.to_json(orient='records')
+    print(ci_df.reset_index().to_json(orient='records'))
+
+    return ci_df.reset_index().to_json(orient='records')
 
 if __name__ == '__main__':
     app.run(debug=True, port=9090)
