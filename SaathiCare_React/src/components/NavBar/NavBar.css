@@ -1,16 +1,21 @@
 .navbar {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   background-color: #0056b3;
   color: white;
   padding: 0 1rem;
   height: 60px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
 }
 
 .navbar-brand {
-  flex-grow: 1;
   display: flex;
   align-items: center;
+  cursor: pointer;
 }
 
 .navbar-logo {
@@ -18,20 +23,25 @@
   margin-right: 1rem;
 }
 
-.navbar-right {
+.navbar-items {
   display: flex;
   align-items: center;
   justify-content: flex-end;
 }
 
-.nav-item {
+.nav-item, .nav-item a, .nav-item button {
   padding: 0.5rem 1rem;
+  margin: 0 0.5rem;
   cursor: pointer;
-  transition: background-color 0.3s;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: white;
   border-radius: 4px;
+  position: relative;
 }
 
-.nav-item:hover {
+.nav-item:hover, .nav-item a:hover, .nav-item button:hover {
   background-color: #004a8d;
 }
 
@@ -40,12 +50,12 @@
   border: none;
   color: #333;
   padding: 0.5rem 1rem;
-  margin-left: 1rem;
+  margin-left: 0.5rem;
   border-radius: 20px;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.3s;
   display: flex;
   align-items: center;
+  transition: background-color 0.3s, transform 0.3s;
 }
 
 .login-button:hover {
@@ -55,28 +65,76 @@
 
 .login-icon {
   margin-right: 0.5rem;
-  color: #333;
   font-size: 1.25rem;
 }
 
 .navbar-heading {
-  margin-left: 10px;
   font-size: 1.5rem;
   font-weight: bold;
-  color: #ffffff;
 }
 
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1001;
+  top: 100%;
+  left: 0;
+  border-radius: 4px;
+}
+
+.nav-item.dropdown .dropdown-content {
+  display: none;
+}
+
+.nav-item.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.nav-item.dropdown .dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.nav-item.dropdown .dropdown-content a:hover {
+  background-color: #f1f1f1;
+}
+
+.dropdown-icon {
+  margin-left: 0.5rem;
+  transition: transform 0.3s;
+}
+
+.nav-item.active, 
+.dropdown-item.active {
+  background-color: #004a8d;
+  color: white;
+}
 
 @media (max-width: 768px) {
   .navbar {
-    flex-wrap: nowrap;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0.5rem 1rem;
   }
 
-  .navbar-nav {
-    display: none;
+  .navbar-items, .navbar-brand {
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 0.5rem;
   }
 
-  .navbar-right {
-    flex-grow: 0;
+  .nav-item, .nav-item a, .nav-item button {
+    width: 100%;
+    text-align: left;
+    padding: 10px 0;
+    margin: 2px 0;
+  }
+
+  .dropdown-content {
+    width: 100%;
   }
 }
