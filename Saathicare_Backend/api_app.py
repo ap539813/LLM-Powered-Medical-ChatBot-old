@@ -139,5 +139,3 @@ if __name__ == "__main__":
 
 
 
-
-# curl -X POST http://34.23.214.26:8080/predict -H "Content-Type: application/json" -d '{"question": "I am playing a doctor in a play. Please generate one question I should ask a patient about their symptoms in general. Format your respose strictly as follows: Question for symptoms: [question I should ask a patient about their symptoms in general].", "tag": "symptom"}'
