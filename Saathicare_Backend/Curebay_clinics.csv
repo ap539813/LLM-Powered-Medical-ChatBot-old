@@ -1,0 +1,86 @@
+S.no,E-Clinics,Address,Latitude,Longitude
+1,E-Clinic 1,"Jagannath Sadak 1, Puri",19.80911,85.83505
+2,E-Clinic 2,"Bada Danda 2, Puri",19.808110000000003,85.83121
+3,E-Clinic 3,"Sri Nahar 3, Puri",19.82273,85.83046999999999
+4,E-Clinic 4,"Baseli Sahi 4, Puri",19.816840000000003,85.82955
+5,E-Clinic 5,"Chakra Tirtha Road 5, Puri",19.818270000000002,85.83019999999999
+6,E-Clinic 6,"Jagannath Sadak 6, Puri",19.81659,85.83624999999999
+7,E-Clinic 7,"Bada Danda 7, Puri",19.81822,85.83399999999999
+8,E-Clinic 8,"Sri Nahar 8, Puri",19.808400000000002,85.8244
+9,E-Clinic 9,"Baseli Sahi 9, Puri",19.81924,85.83716
+10,E-Clinic 10,"Chakra Tirtha Road 10, Puri",19.806340000000002,85.82522999999999
+11,E-Clinic 11,"Jagannath Sadak 11, Puri",19.817520000000002,85.8262
+12,E-Clinic 12,"Bada Danda 12, Puri",19.803810000000002,85.82598
+13,E-Clinic 13,"Sri Nahar 13, Puri",19.80912,85.839
+14,E-Clinic 14,"Baseli Sahi 14, Puri",19.80386,85.82932
+15,E-Clinic 15,"Chakra Tirtha Road 15, Puri",19.82129,85.83998
+16,E-Clinic 16,"Jagannath Sadak 16, Puri",19.814500000000002,85.83910999999999
+17,E-Clinic 17,"Bada Danda 17, Puri",19.818740000000002,85.8339
+18,E-Clinic 18,"Sri Nahar 18, Puri",19.820990000000002,85.82347
+19,E-Clinic 19,"Baseli Sahi 19, Puri",19.807850000000002,85.83937
+20,E-Clinic 20,"Chakra Tirtha Road 20, Puri",19.81063,85.83155
+21,E-Clinic 21,"Jagannath Sadak 21, Puri",19.81903,85.82676
+22,E-Clinic 22,"Bada Danda 22, Puri",19.815830000000002,85.82681
+23,E-Clinic 23,"Sri Nahar 23, Puri",19.809420000000003,85.82361999999999
+24,E-Clinic 24,"Baseli Sahi 24, Puri",19.80668,85.83027
+25,E-Clinic 25,"Chakra Tirtha Road 25, Puri",19.80646,85.82723999999999
+26,E-Clinic 26,"Jagannath Sadak 26, Puri",19.80754,85.83536
+27,E-Clinic 27,"Bada Danda 27, Puri",19.822860000000002,85.82657999999999
+28,E-Clinic 28,"Sri Nahar 28, Puri",19.81127,85.83603
+29,E-Clinic 29,"Baseli Sahi 29, Puri",19.81082,85.83959999999999
+30,E-Clinic 30,"Chakra Tirtha Road 30, Puri",19.81587,85.84096
+31,E-Clinic 31,"Jagannath Sadak 31, Puri",19.80885,85.82728
+32,E-Clinic 32,"Bada Danda 32, Puri",19.819660000000002,85.82307999999999
+33,E-Clinic 33,"Sri Nahar 33, Puri",19.82062,85.82561
+34,E-Clinic 34,"Baseli Sahi 34, Puri",19.81931,85.82184
+35,E-Clinic 35,"Chakra Tirtha Road 35, Puri",19.80467,85.83845
+36,E-Clinic 36,"Rasulgarh 36, Bhubaneswar",20.30333,85.82756
+37,E-Clinic 37,"Saheed Nagar 37, Bhubaneswar",20.29205,85.82856
+38,E-Clinic 38,"Chandaka 38, Bhubaneswar",20.29186,85.81698
+39,E-Clinic 39,"Kalinga Vihar 39, Bhubaneswar",20.28767,85.8222
+40,E-Clinic 40,"Patia 40, Bhubaneswar",20.30513,85.83401
+41,E-Clinic 41,"Rasulgarh 41, Bhubaneswar",20.29759,85.81888000000001
+42,E-Clinic 42,"Saheed Nagar 42, Bhubaneswar",20.28849,85.81722
+43,E-Clinic 43,"Chandaka 43, Bhubaneswar",20.30072,85.82486
+44,E-Clinic 44,"Kalinga Vihar 44, Bhubaneswar",20.297259999999998,85.8182
+45,E-Clinic 45,"Patia 45, Bhubaneswar",20.289389999999997,85.82833
+46,E-Clinic 46,"Rasulgarh 46, Bhubaneswar",20.287309999999998,85.82782
+47,E-Clinic 47,"Saheed Nagar 47, Bhubaneswar",20.28933,85.81601
+48,E-Clinic 48,"Chandaka 48, Bhubaneswar",20.303559999999997,85.82773
+49,E-Clinic 49,"Kalinga Vihar 49, Bhubaneswar",20.304479999999998,85.83108
+50,E-Clinic 50,"Patia 50, Bhubaneswar",20.30323,85.82731
+51,E-Clinic 51,"Rasulgarh 51, Bhubaneswar",20.29261,85.81531
+52,E-Clinic 52,"Saheed Nagar 52, Bhubaneswar",20.29021,85.82923
+53,E-Clinic 53,"Chandaka 53, Bhubaneswar",20.29578,85.82495
+54,E-Clinic 54,"Kalinga Vihar 54, Bhubaneswar",20.29213,85.82947
+55,E-Clinic 55,"Patia 55, Bhubaneswar",20.29451,85.82582000000001
+56,E-Clinic 56,"Rasulgarh 56, Bhubaneswar",20.28667,85.8266
+57,E-Clinic 57,"Saheed Nagar 57, Bhubaneswar",20.29432,85.83302
+58,E-Clinic 58,"Chandaka 58, Bhubaneswar",20.289649999999998,85.82154
+59,E-Clinic 59,"Kalinga Vihar 59, Bhubaneswar",20.305799999999998,85.82273
+60,E-Clinic 60,"Patia 60, Bhubaneswar",20.2926,85.82114
+61,E-Clinic 61,"Rasulgarh 61, Bhubaneswar",20.30171,85.82653
+62,E-Clinic 62,"Saheed Nagar 62, Bhubaneswar",20.29962,85.83048
+63,E-Clinic 63,"Chandaka 63, Bhubaneswar",20.305339999999998,85.81535
+64,E-Clinic 64,"Chandipur Path 64, Balasore",21.48791,86.91885
+65,E-Clinic 65,"Balaramgadi 65, Balasore",21.493290000000002,86.92308
+66,E-Clinic 66,"Fakir Mohan Nagar 66, Balasore",21.491390000000003,86.91347
+67,E-Clinic 67,"Nilagiri 67, Balasore",21.49349,86.9149
+68,E-Clinic 68,"Seragarh 68, Balasore",21.48649,86.90818
+69,E-Clinic 69,"Chandipur Path 69, Balasore",21.49789,86.90717
+70,E-Clinic 70,"Balaramgadi 70, Balasore",21.493380000000002,86.91384
+71,E-Clinic 71,"Fakir Mohan Nagar 71, Balasore",21.49621,86.92098
+72,E-Clinic 72,"Nilagiri 72, Balasore",21.48367,86.90561
+73,E-Clinic 73,"Seragarh 73, Balasore",21.49303,86.90887
+74,E-Clinic 74,"Chandipur Path 74, Balasore",21.48481,86.91168
+75,E-Clinic 75,"Balaramgadi 75, Balasore",21.48542,86.91479
+76,E-Clinic 76,"Fakir Mohan Nagar 76, Balasore",21.49471,86.91892
+77,E-Clinic 77,"Nilagiri 77, Balasore",21.503330000000002,86.91783
+78,E-Clinic 78,"Seragarh 78, Balasore",21.49784,86.90565
+79,E-Clinic 79,"Buxi Bazaar 79, Cuttack",20.47063,85.87714
+80,E-Clinic 80,"Choudhury Bazaar 80, Cuttack",20.45667,85.88248999999999
+81,E-Clinic 81,"Tinkonia Bagicha 81, Cuttack",20.456879999999998,85.87521
+82,E-Clinic 82,"Kathajodi Vihar 82, Cuttack",20.46352,85.88489
+83,E-Clinic 83,"Badambadi 83, Cuttack",20.46624,85.89137
+84,E-Clinic 84,"Buxi Bazaar 84, Cuttack",20.457549999999998,85.89224
+85,E-Clinic 85,"Choudhury Bazaar 85, Cuttack",20.4534,85.88007999999999

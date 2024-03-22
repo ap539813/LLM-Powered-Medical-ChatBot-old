@@ -1,0 +1,69 @@
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+  }
+  
+  .ExtentPrediction {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    overflow-y: auto;
+    padding: 0 5%;
+    box-sizing: border-box; 
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px; /* Add some space above the table */
+  }
+  
+  table, th, td {
+    border: 1px solid black;
+  }
+  
+  th, td {
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 20px; 
+  }
+  
+  .pagination button {
+    margin: 0 5px;
+    padding: 5px 10px;
+  }
+  
+  select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 20px;
+  }
+  
+  .state-charts {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .chart-row {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .chart {
+    flex: 1;
+    margin-right: 0;
+  }
+  
+  .chart:last-child {
+    margin-right: 0;
+  }
+  
