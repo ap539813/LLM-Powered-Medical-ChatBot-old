@@ -10,8 +10,9 @@
 .app-body {
   display: flex;
   height: calc(100vh - 60px);
-  overflow: hidden;
-  flex: 1;
+  padding-top: 60px;
+  overflow: hidden; 
+  transition: margin-left 0.3s;
 }
 
 body, html {
