@@ -2,8 +2,11 @@ from flask import Flask, request, jsonify
 import pandas as pd
 from geopy.geocoders import Nominatim
 from math import radians, cos, sin, sqrt, atan2
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
+
 
 # Load the clinic data
 labels_path = 'Curebay_clinics.csv'
