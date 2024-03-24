@@ -53,7 +53,7 @@ def get_nearest_clinic():
 
     nearest_clinic_address = find_nearest_clinic(df, coordinates)
     if nearest_clinic_address:
-        return jsonify({"nearest_clinic": nearest_clinic_address})
+        return jsonify({"nearest_clinic": [nearest_clinic_address]})
     else:
         return jsonify({"error": "No nearest clinic found"}), 404
 
