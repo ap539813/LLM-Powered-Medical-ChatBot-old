@@ -6,6 +6,8 @@ import plotly.express as px
 import json
 from scipy.stats import norm
 import numpy as np
+from pandasai import Agent
+from pandasai.llm.openai import OpenAI
 
 app = Flask(__name__)
 CORS(app)
@@ -64,6 +66,39 @@ def projected_cases():
     print(ci_df.reset_index().to_json(orient='records'))
 
     return ci_df.reset_index().to_json(orient='records')
+
+@app.route('/process_query', methods=['POST'])
+def process_query():
+    user_query = request.json.get('userInput', '')
+
+    response = f"Received your query: {user_query}"
+
+    data = load_data()
+
+    with open('api_keys.json') as api_file:
+        api_key = json.load(api_file)['open_api']
+
+    # Initialize the LLM with the API key
+    llm = OpenAI(api_token = api_key)
+
+    # Create an Agent instance with the loaded DataFrame
+    agent = Agent([data], config={"llm": llm})
+
+    # Context for the LLM
+    context = "I am a data analyzer aiming to present a report on the data trends. Let's analyze the loaded Curebay CSV data."
+
+    try:
+        response = agent.chat(context + " " + user_query)
+        print(type(response))
+        # Add the response to comments suitable for higher management
+        management_comment = f"I've reviewed the data and {response}"
+        # print(management_comment)
+        # st.success(f"Response: {management_comment}")
+    except Exception as e:
+        management_comment = f"An error occurred: {e}"
+
+    return jsonify({'response': management_comment})
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True, port=9090)
