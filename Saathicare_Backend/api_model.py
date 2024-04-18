@@ -8,6 +8,9 @@ from io import BytesIO
 app = Flask(__name__)
 CORS(app)
 
+from flask_sslify import SSLify
+sslify = SSLify(app)
+
 # Load your trained model
 model = load_model('best_diabetic_retinopathy_model.h5')
 
@@ -19,6 +22,10 @@ label_to_class = {
     3: 'Severe',
     4: 'Proliferative DR'
 }
+
+@app.route('/health', methods=['GET'])
+def health_check():
+    return jsonify({"status": "ok"}), 200
 
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -61,4 +68,4 @@ def predict():
         return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=9080, debug = True)
+    app.run(host='0.0.0.0', port=9080, debug = True, ssl_context=('/home/somewithb/SaathiCare/SaathiCare_React/cert.pem', '/home/somewithb/SaathiCare/SaathiCare_React/key.pem'))
