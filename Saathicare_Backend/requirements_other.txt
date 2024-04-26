@@ -1,0 +1,17 @@
+google-auth
+google-auth-oauthlib
+google-cloud-aiplatform
+flask
+flask-cors
+mistralai
+neo4j
+transformers
+pandas
+geopy
+plotly
+scipy
+pandasai
+tensorflow
+tf-keras
+flask_sslify
+PyPDF2
